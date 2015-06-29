@@ -1,0 +1,21 @@
+<template name="layout">
+
+    <!-- Splash screen -->
+    {{>splash }}
+
+    <!-- Header -->
+    {{> header }}
+
+    <!-- Navigation -->
+    {{> navigation }}
+
+    <!-- Main Wrapper -->
+    <div id="wrapper">
+        {{> yield}}
+    </div>
+
+    {{#if modal}}
+        {{> Template.dynamic template=getModalName }}
+    {{/if}}
+
+</template>

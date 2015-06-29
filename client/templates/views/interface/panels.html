@@ -1,0 +1,241 @@
+<template name="panels">
+
+    {{> pageHeader title="Panels design" desc="Many panels design give you many possibilities." category="Interface" }}
+
+    {{#staggering}}
+
+    <div class="content">
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                {{#panel title="This is a standard panel (header, content, footer)" footer="This is standard panel footer"}}
+                        <p>
+                            Lorem Ipsum is simply dummy text of the <strong>printing and typesetting</strong> industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the
+                            <abbr title="" data-original-title="Sample abbreviation">scrambled it to make</abbr> a type
+                            specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the
+                            scrambled it to make a type specimen book.
+                        </p>
+                {{/panel}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+
+                {{#panel title="Default Panel" footer="This is standard panel footer"}}
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan.
+                    </p>
+                {{/panel}}
+            </div>
+            <div class="col-lg-4">
+
+                {{#panel title="Built panel" footer="This is standard panel footer" built=true}}
+                    <div class="row">
+                        <div class="col-lg-6 border-right">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae
+                                ultrices accumsan. Aliquam ornare lacus
+                            </p>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <p>
+                                posuere lectus et, fringilla augue.
+                                ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae
+                                accumsan.
+                            </p>
+                        </div>
+                    </div>
+                {{/panel}}
+            </div>
+            <div class="col-lg-4">
+                {{#panel title="Built panel" footer="This is standard panel footer" built=true color="hblue"}}
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan.
+                    </p>
+                {{/panel}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+
+                {{#panel title="Panel green" color="hgreen"}}
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan.
+                    </p>
+                {{/panel}}
+            </div>
+            <div class="col-lg-4">
+                {{#panel title="Panel orange" color="horange"}}
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan.
+                    </p>
+                {{/panel}}
+            </div>
+            <div class="col-lg-4">
+                {{#panel title="Panel red" color="hred"}}
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan.
+                    </p>
+                {{/panel}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                {{#panel title="Panel yellow" color="hyellow" footer="This is standard panel footer"}}
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae
+                        ultrices
+                        accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan.
+                    </p>
+                {{/panel}}
+            </div>
+            <div class="col-lg-4">
+                {{#panel title="Panel blue" color="hblue" footer="This is standard panel footer"}}
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae
+                        ultrices
+                        accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan.
+                    </p>
+                {{/panel}}
+            </div>
+            <div class="col-lg-4">
+                {{#panel title="Panel violet" color="hviolet" footer="This is standard panel footer"}}
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae
+                        ultrices
+                        accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                        ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
+                        accumsan.
+                    </p>
+                {{/panel}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="hpanel">
+                    <div class="panel-heading hbuilt">
+                        <div class="pull-right">
+                            <a class="btn btn-default btn-xs">Action 1</a>
+                            <a class="btn btn-default btn-xs">Action 2</a>
+                        </div>
+                        Pannel with custom buttons
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                            ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                        </p>
+                    </div>
+                    <div class="panel-footer">
+                        This is standard panel footer
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hpanel">
+                    <div class="panel-heading hbuilt">
+                        <div class="row">
+                            <div class="col-md-6">
+                                Panel with search form
+                            </div>
+                            <div class="col-md-6">
+                                <form action="">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input-xs" placeholder="Search something..." name="s"/>
+								<span class="input-group-btn">
+									<button class="btn btn-xs btn-default" type="submit">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+								</span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                            ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                        </p>
+                    </div>
+                    <div class="panel-footer">
+                        This is standard panel footer
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {{#panel title="Pannel with list group" footer="This is standard panel footer" bodyClass="no-padding" built=true}}
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge badge-primary">16</span>
+                            Lorem ipsum
+                        </li>
+                        <li class="list-group-item ">
+                            <span class="badge badge-info">12</span>
+                            Consectetur adipiscing
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-danger">10</span>
+                            Aliquam ornare
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-success">10</span>
+                            Vestibulum tincidunt
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-warning">7</span>
+                            Posuere lectus
+                        </li>
+                    </ul>
+                {{/panel}}
+            </div>
+            <div class="col-lg-6">
+                <div class="hpanel">
+                    <div class="panel-heading hbuilt">
+                        {{> panelTools }}
+                        Panel with alert
+                    </div>
+                    <div class="alert alert-success">
+                        <i class="fa fa-bolt"></i> Adding action was successful
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.Lorem
+                            ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.
+                        </p>
+                    </div>
+                    <div class="panel-footer">
+                        This is standard panel footer
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{/staggering}}
+</template>

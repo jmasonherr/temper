@@ -1,0 +1,25 @@
+<template name="panel">
+
+    <div class="hpanel {{color}} {{panelClass}}">
+        {{#if title}}
+            <div class="panel-heading {{#if built}} hbuilt {{/if}}">
+                {{> panelTools }}
+                {{title}}
+            </div>
+        {{/if}}
+        <div class="panel-body {{bodyClass}}">
+            {{> Template.contentBlock}}
+        </div>
+        {{#if footer }}
+            <div class="panel-footer">
+                {{#if footerRight}}
+                    <span class="pull-right">
+                        {{footerRight}}
+                    </span>
+                {{/if}}
+                {{footer}}
+            </div>
+        {{/if}}
+    </div>
+
+</template>

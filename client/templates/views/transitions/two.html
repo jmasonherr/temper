@@ -1,0 +1,58 @@
+<template name="transitionTwo">
+
+    <div class="p-lg">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-4">
+                    {{#staggering child="hpanel" effect="fadeInLeft"}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                    {{/staggering}}
+                </div>
+                <div class="col-lg-4">
+                    {{#staggering child="hpanel"}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                    {{/staggering}}
+                </div>
+                <div class="col-lg-4">
+                    {{#staggering child="hpanel" effect="fadeInRight"}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                        {{#panel title="Box example"}}
+                            <div class="h-100"></div>
+                        {{/panel}}
+                    {{/staggering}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>

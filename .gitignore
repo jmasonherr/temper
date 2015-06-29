@@ -1,0 +1,59 @@
+# Standard ignores
+*.pyc
+*.pyo
+*.DS_Store
+*.swp
+*.idea
+*.project
+*.pydevproject
+*.kpf
+venv
+xcode
+MeteorXcode
+
+.meteor
+# Don't store secret keys in version control
+secret_keys.py
+
+# Python bytecode:
+*.py[co]
+
+
+# Packaging files:
+*.egg*
+
+# Editor temp files:
+*.swp
+*~
+
+# Sphinx docs:
+build
+
+# SQLite3 database files:
+*.db
+
+# Logs:
+*.log
+
+*.pyc
+.DS_STORE
+*.xcuserstate
+*.xcsettings
+*.pbxproj
+*.xc*
+*.orig
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+
+*.p
+*.pyc
+*.orig
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+
+
+*.xlsx

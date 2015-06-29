@@ -1,0 +1,70 @@
+<template name="chartJs">
+
+    {{> pageHeader title="ChartJS" desc="Simple HTML5 Charts using the canvas element." category="Charts" }}
+
+    {{#staggering}}
+
+    <div class="content">
+
+        <div class="row">
+            <div class="col-lg-4">
+                {{#panel title="Radar type chart"}}
+                    <div>
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                {{/panel}}
+            </div>
+            <div class="col-lg-4">
+                {{#panel title="Doughnut bar chart"}}
+                    <div>
+                        <canvas id="doughnutChart" height="140"></canvas>
+                    </div>
+                {{/panel}}
+            </div>
+            <div class="col-lg-4">
+                {{#panel title="Polar type chart"}}
+                    <div>
+                        <canvas id="polarOptions" height="140"></canvas>
+                    </div>
+                {{/panel}}
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {{#panel title="Line type chart"}}
+                    <div>
+                        <canvas id="lineOptions" height="140"></canvas>
+                    </div>
+                {{/panel}}
+            </div>
+            <div class="col-lg-6">
+                {{#panel title="Bar type chart"}}
+                    <div>
+                        <canvas id="barOptions" height="140"></canvas>
+                    </div>
+                {{/panel}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {{#panel title="Single Bar type chart"}}
+                    <div>
+                        <canvas id="singleBarOptions" height="140"></canvas>
+                    </div>
+                {{/panel}}
+            </div>
+            <div class="col-lg-6">
+                {{#panel title="Line type chart without curve"}}
+                    <div>
+                        <canvas id="sharpLineOptions" height="140"></canvas>
+                    </div>
+                {{/panel}}
+            </div>
+        </div>
+
+    </div>
+
+    {{/staggering}}
+
+</template>

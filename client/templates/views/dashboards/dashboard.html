@@ -1,0 +1,16 @@
+<template name="dashboard">
+{{#staggering}}
+    <div class="content">
+
+        {{#pageTitle title="Welcome to Homer Theme"}}
+           <!-- Special <strong>Meteor Admin Theme</strong> for small and medium webapp with very clean and aesthetic
+           style and feel.-->
+        {{/pageTitle}}
+
+        {{# each refiners}}
+            {{> refiner}}
+        {{/each}}
+
+    </div>
+{{/staggering}}
+</template>
