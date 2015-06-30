@@ -1,3 +1,4 @@
+@MOCK_TEMP = 30.1 # Allow us to change and play with a fake teperature
 @ACTIONS =  _.map ['temper', 'pause', 'run', 'hold', 'done', 'new'], (i) ->
             name: i
 
@@ -38,9 +39,9 @@ Runs.allow
 
 
 Machines.allow
-  insert: (userId, run) ->
+  insert: (userId, machine) ->
     !!userId
-  update: (userId, run) ->
-    run.user == userId
-  remove: (userId, run) ->
+  update: (userId, machine) ->
+    machine.user == userId
+  remove: (userId, machine) ->
     false

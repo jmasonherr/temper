@@ -1,5 +1,7 @@
 
 Template.refiner.onCreated ->
+    console.log 'created refiner template'
+    console.log @data._id + ' ' + Meteor.userId()
     @subscribe 'latest', @data._id # -> # onReady
 
 
@@ -88,9 +90,6 @@ Template.run.onRendered ->
 
         lineElem = self.find('.flot-line-chart')
 
-        console.log 'line '
-        console.log lineElem
-
         chartParams =
             bindto: lineElem
             data:
@@ -104,7 +103,6 @@ Template.run.onRendered ->
                     type: 'timeseries'
                     tick:
                         format: (t) -> moment(t).format('h:mm a')
-
 
         donut = self.find('canvas.donut')
         donutChart = new Chart(donut.getContext("2d")).Doughnut(donutData,DONUT_OPTS)
@@ -140,10 +138,10 @@ Template.run.helpers
         return ((cocoaContent / total) * 100).toFixed(1)
 
     cleanId: ->
-        Template.currentData().machine.split('_')[0]
+        Template.currentData().machine
 
     machineName: ->
-        Template.parentData(1).name || Template.parentData(1)._id.split('_')[0]
+        Template.parentData(1).name || Template.parentData(1)._id
 
     actions: (status) ->
         ACTIONS

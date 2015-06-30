@@ -10,55 +10,65 @@ Meteor.publish 'latest', (machineId) ->
                 createdAt: -1
             limit: 1
 
+Meteor.publish 'remoteLatest', (machineId) ->
+    Runs.find
+        user: this.userId,
+        machine: machineId + '_' + this.userId,
+            sort:
+                createdAt: -1
+            limit: 1
+            fields:
+                status: 1
+
+# LEFT OFF FIGURING OUT HOW TO MAKE PYTHON INTERFACE< AND
+# HOW TO MAKE THE GODDANAMM TIMEOUT SITUATION WORK
+
 Meteor.publish 'archive', ->
   Runs.find
-    user: this.userId
-    status: 'done',
-      sort:
-        createdAt: -1
+      user: this.userId
+      status: 'done',
+          sort:
+              createdAt: -1
 
 
 Meteor.methods
-  mockData: ->
-    console.log 'moching data'
-    console.log this.userId
-    if this.userId
-      if not Machines.findOne()
-        console.log 'not machines'
-        Meteor.call 'getOrCreateMachine', 'machine1', ->
-          console.log 'machine1 '
-          Meteor.call 'startRun', 'machine1', ->
-            _.each _.range(1,10), (i) ->
-              Meteor.setTimeout ->
-                Meteor.call 'addTemp', 'machine1', i
-              , 2000 * i
-        Meteor.call 'getOrCreateMachine', 'machine2', ->
-          Meteor.call 'startRun', 'machine2', ->
-            _.each _.range(1,10), (i) ->
-              Meteor.setTimeout ->
-                Meteor.call 'addTemp', 'machine2', i
-              , 2000 * i
+    mockData: ->
+        console.log 'moching data'
+        console.log this.userId
+        if this.userId
+            if not Machines.findOne()
+                console.log 'not machines'
+                Meteor.call 'getOrCreateMachine', 'machine1', ->
+                    console.log 'machine1 '
+                    Meteor.call 'startRun', 'machine1', ->
+                        _.each _.range(1,10), (i) ->
+                            Meteor.setTimeout ->
+                                Meteor.call 'addTemp', 'machine1', i
+                            , 2000 * i
+            Meteor.call 'getOrCreateMachine', 'machine2', ->
+                Meteor.call 'startRun', 'machine2', ->
+                    _.each _.range(1,10), (i) ->
+                        Meteor.setTimeout ->
+                            Meteor.call 'addTemp', 'machine2', i
+                        , 2000 * i
 
-  getOrCreateMachine: (machineId) ->
+  getOrCreateMachine: (sensorId) ->
       if not this.userId
           throw new Meteor.error "logged-out", "The user must be logged in to create a machine"
-      fullId = machineId + '_' + this.userId
-      machine = Machines.findOne
-        _id: fullId
-        user: this.userId
+      machine = Machines.findOne sensorId
       if not machine
           machine = Machines.insert
-            _id: fullId
+            _id: sensorId
             user: this.userId
-      return fullId
+      return sensorId
 
 
   addTemp: (machineId, temp) ->
+      # deprecated
       if not this.userId
           throw new Meteor.error "logged-out", "The user must be logged in to start a run"
-      fullId = machineId + '_' + this.userId
       latest = Runs.findOne
-          machine: fullId
+          machine: machineId
           user: this.userId,
               sort:
                   createdAt: -1
@@ -73,10 +83,9 @@ Meteor.methods
   startRun: (machineId) ->
       if not this.userId
           throw new Meteor.error "logged-out", "The user must be logged in to start a run"
-      fullId = machineId + '_' + this.userId
 
       machine = Machines.findOne
-          _id: fullId
+          _id: machineId
           user: this.userId
 
       # Make a new machine if it doesn't exist
@@ -102,6 +111,8 @@ Meteor.methods
           name: 'milk'
           qty: 0,
             name: 'lecithin'
-            qty: 0
+            qty: 0,
+          name: 'cocoa butter'
+          qty: 0
           ]
         status: 'running'

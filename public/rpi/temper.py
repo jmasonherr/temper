@@ -2,7 +2,10 @@ import os
 import datetime
 import subprocess
 
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+except:
+    GPIO = {}
 
 from w1thermsensor import W1ThermSensor
 
@@ -44,7 +47,7 @@ OBJS = {
     # }
 }
 
-client = MeteorClient(URL)
+client = MeteorClient(URL, auto_reconnect=False, auto_reconnect_timeout=10)
 
 # def hello():
 #     print "hello, world"
@@ -86,22 +89,22 @@ def connected(*args, **kwargs):
     print kwargs
 
 
-def socket_closed(*args, **kwargs):
-    print 'Socket closed: %s' % datetime.datetime.now().isoformat()
-    print args
-    print kwargs
+# def socket_closed(*args, **kwargs):
+#     print 'Socket closed: %s' % datetime.datetime.now().isoformat()
+#     print args
+#     print kwargs
 
 
-def reconnected(*args, **kwargs):
-    print 'Re-connected to server: %s' % datetime.datetime.now().isoformat()
-    print args
-    print kwargs
+# def reconnected(*args, **kwargs):
+#     print 'Re-connected to server: %s' % datetime.datetime.now().isoformat()
+#     print args
+#     print kwargs
 
 
-def failed(*args, **kwargs):
-    print 'FAILED AT: %s' % datetime.datetime.now().isoformat()
-    print args
-    print kwargs
+# def failed(*args, **kwargs):
+#     print 'FAILED AT: %s' % datetime.datetime.now().isoformat()
+#     print args
+#     print kwargs
 
 
 def added(*args, **kwargs):
@@ -116,10 +119,10 @@ def changed(*args, **kwargs):
     print kwargs
 
 
-def removed(*args, **kwargs):
-    print 'Removed: %s' % datetime.datetime.now().isoformat()
-    print args
-    print kwargs
+# def removed(*args, **kwargs):
+#     print 'Removed: %s' % datetime.datetime.now().isoformat()
+#     print args
+#     print kwargs
 
 
 def subscribed(*args, **kwargs):
@@ -128,16 +131,16 @@ def subscribed(*args, **kwargs):
     print kwargs
 
 
-def unsubscribed(*args, **kwargs):
-    print 'Unsubscribed: %s' % datetime.datetime.now().isoformat()
-    print args
-    print kwargs
+# def unsubscribed(*args, **kwargs):
+#     print 'Unsubscribed: %s' % datetime.datetime.now().isoformat()
+#     print args
+#     print kwargs
 
 
-def logging_in(*args, **kwargs):
-    print 'Logging in: %s' % datetime.datetime.now().isoformat()
-    print args
-    print kwargs
+# def logging_in(*args, **kwargs):
+#     print 'Logging in: %s' % datetime.datetime.now().isoformat()
+#     print args
+#     print kwargs
 
 
 def sensor_create_callback(*args, **kwargs):
@@ -151,10 +154,14 @@ def logged_in(*args, **kwargs):
     print args
     print kwargs
     print 'Creating machines...'
-    for sensor in W1ThermSensor.get_available_sensors():
-        client.call('getOrCreateMachine', sensor.id, callback=sensor_create_callback)
-    for fakesensor in ['refiner1id', 'refiner12id']:
-        client.call('getOrCreateMachine', fakesensor, callback=sensor_create_callback)
+    if not TESTING:
+        for sensor in W1ThermSensor.get_available_sensors():
+            client.call('getOrCreateMachine', sensor.id, callback=sensor_create_callback)
+            client.subscribe('remoteLatest', sensor.id)
+    else:
+        for fakesensor in ['refiner1id', 'refiner12id']:
+            client.call('getOrCreateMachine', fakesensor, callback=sensor_create_callback)
+            client.subscribe('remoteLatest', fakesensor)
 
 
 def logged_out(*args, **kwargs):
@@ -165,30 +172,30 @@ def logged_out(*args, **kwargs):
 
 def setup_events(client):
     client.on('connected', connected)
-    client.on('socket_closed', socket_closed)
-    client.on('reconnected', reconnected)
-    client.on('failed', failed)
+    # client.on('socket_closed', socket_closed)
+    # client.on('reconnected', reconnected)
+    # client.on('failed', failed)
     client.on('added', added)
     client.on('changed', changed)
-    client.on('removed', removed)
-    client.on('subscribed', subscribed)
-    client.on('unsubscribed', unsubscribed)
-    client.on('logging_in', logging_in)
+    # client.on('removed', removed)
+    # client.on('subscribed', subscribed)
+    # client.on('unsubscribed', unsubscribed)
+    # client.on('logging_in', logging_in)
     client.on('logged_in', logged_in)
     client.on('logged_out', logged_out)
 
 
 def main():
-    username = os.environ.get('TEMPER_USERNAME')
-    password = os.environ.get('TEMPER_PASSWORD')
+    username = os.environ.get('TEMPER_USERNAME', 'jmasonherr@gmail.com')
+    password = os.environ.get('TEMPER_PASSWORD', 'goslugs')
 
-    if not username:
-        username = raw_input('Whats your username?\n')
+    # if not username:
+    #     username = raw_input('Whats your username?\n')
 
-    if not password:
-        password = raw_input('Whats your password?\n')
+    # if not password:
+    #     password = raw_input('Whats your password?\n')
 
-    client.setup_events()
+    setup_events(client)
     client.connect()
 
     client.login(username, password, callback=logged_in)
@@ -202,24 +209,25 @@ def main():
     except Exception, e:
         print 'EXCEPTION SETTING UP MAIN GPIO'
         print e
-        GPIO.cleanup()
+        if not TESTING:
+            GPIO.cleanup()
         if not TESTING:
             return
 
     # ToDO: generalize this to multiple machines setup by the server
-    sensor1 = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, REFINER1_ID)
+    # sensor1 = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, REFINER1_ID)
 
-    OBJS[REFINER1_ID] = {
-        'sensor': sensor1,
-        'pin': R1
-    }
+    # OBJS[REFINER1_ID] = {
+    #     'sensor': sensor1,
+    #     'pin': R1
+    # }
 
-    sensor2 = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, REFINER2_ID)
+    # sensor2 = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, REFINER2_ID)
 
-    OBJS[REFINER2_ID] = {
-        'sensor': sensor2,
-        'pin': R2
-    }
+    # OBJS[REFINER2_ID] = {
+    #     'sensor': sensor2,
+    #     'pin': R2
+    # }
     # TODO: add subscriptions here
 
 
