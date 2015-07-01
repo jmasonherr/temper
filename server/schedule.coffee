@@ -1,3 +1,18 @@
+later = Npm.require('later')
+
+SyncedCron.add
+  name: 'testlogging'
+  schedule: (parser) ->
+    # parser is a later.parse object
+    later.parse.recur().on(2).second()
+  job: () ->
+    console.log(this)
+    console.log(this.name)
+
+SyncedCron.start()
+
+
+
 
 if process.env.USER == 'pi'
     sensor = require('ds18x20');

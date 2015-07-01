@@ -1,6 +1,6 @@
 Package.describe({
   name: 'jmasonherr:ds18x20',
-  version: '0.0.1',
+  version: '0.1.1',
   // Brief, one-line summary of the package.
   summary: 'Temperature sensing',
   // URL to the Git repository containing the source code for this package.
@@ -12,8 +12,8 @@ Package.describe({
 
 Npm.depends({ds18x20: '0.1.1'});
 
-
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-
+  api.addFiles('thermsensor.js');
+  api.export("ThermSensor");
 });
