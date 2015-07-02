@@ -1,0 +1,56 @@
+<template name="run">
+    <div class="col-lg-12">
+        {{#panel}}
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="small text-center">
+                    <i class="fa fa-bolt"></i>
+                    <a href="#" data-type="text" data-placement="right" data-placeholder="Bean name" data-title="Bean name"  class="editable editable-click bean" style="display: inline;">{{title}}</a>
+                </div>
+                <div class="donut-wrapper">
+                    <canvas class="donut"></canvas>
+                    <div class="donut-inner">
+                        <h6>{{getPercentage}}%</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center small">
+                    <i class="fa fa-laptop"></i><a href="#" data-type="text" data-placement="right" data-placeholder="Bean name" data-title="Bean name"  class="editable editable-click machine-name" style="display: inline;"> {{machineName}}
+</a>
+                    (#{{cleanId}})
+                </div>
+                <div class="flot-chart" style="height: 160px;margin-top:15px">
+                    <div class="flot-chart-content flot-line-chart"></div>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="small">
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle">
+                            <i class="fa fa-clock-o"></i> {{status}} <span class="caret"></span></button>
+                            <ul class="dropdown-menu action-menu">
+                                {{#each actions}}
+                                {{#if isStatus name}}
+                                <li><a class="disabled" href="#">{{name}}</a></li>
+                                {{else}}
+                                <li><a class="" href="#">{{name}}</a></li>
+                                {{/if}}
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-extra-bold m-t-xl m-b-xs" style="font-size: 52px;">
+                            {{lastTemp}}&deg;
+                        </h1>
+
+                    </div>
+                    <div class="small m-t-xl">
+                        <i class="fa fa-clock-o"></i> Last updated at {{lastTime}}
+                    </div>
+                </div>
+            </div>
+            {{/panel}}
+        </div>
+</template>

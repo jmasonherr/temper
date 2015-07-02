@@ -1,0 +1,11 @@
+<template name="refiner">
+    <div class="row">
+        {{#if Template.subscriptionsReady}}
+        {{# each runs _id}}
+            {{> run}}
+        {{/each}}
+        {{else}}
+            {{> spinner}}
+        {{/if}}
+    </div>
+</template>
