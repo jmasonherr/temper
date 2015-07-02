@@ -11,7 +11,7 @@ venv
 xcode
 MeteorXcode
 
-.meteor
+#.meteor
 # Don't store secret keys in version control
 secret_keys.py
 
