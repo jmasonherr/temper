@@ -1,3 +1,20 @@
+Meteor.startup ->
+    allMachines = Machines.find().fetch()
+    console.log(_.pluck(allMachines, '_id'))
+
+    Runs.find
+        machine:
+            $in:
+                _.pluck allMachines, '_id'
+    .observeChanges
+        changed: (id, fields) ->
+            console.log 'CHANGED'
+            console.log id
+            console.log fields
+            if fields.status
+                console.log 'SETTING COURSE ' + fields.status
+                #setCourse(id, fields.status)
+
 if process.env.USER == 'pi'
     console.log 'STARTING AS PI'
 
@@ -32,10 +49,13 @@ if process.env.USER == 'pi'
                 console.log 'COURSE ' + course + ' NOT PRESENT IN CRON ACTIONS'
 
         driverLoad()
+        allMachines = Machines.find().fetch()
+        console.log(_.pluck(allMachines, '_id'))
+
         Runs.find
             machine:
                 $in:
-                    ThermSensor.list()
+                    _.pluck allMachines, '_id'
         .observeChanges
             changed: (id, fields) ->
                 if fields.status

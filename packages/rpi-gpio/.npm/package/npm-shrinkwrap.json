@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "rpi-gpio": {
+      "version": "0.5.2",
+      "dependencies": {
+        "async": {
+          "version": "0.8.0"
+        },
+        "debug": {
+          "version": "0.8.1"
+        }
+      }
+    }
+  }
+}

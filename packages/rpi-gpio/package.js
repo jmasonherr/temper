@@ -14,12 +14,7 @@ Npm.depends({'rpi-gpio': '0.5.2'});
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
-  api.addFiles('rpi-gpio.js');
+  api.addFiles('rpi-gpio.js', 'server');
   api.export("RPI");
 });
 
-Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('rpi-gpio');
-  api.addFiles('rpi-gpio-tests.js');
-});

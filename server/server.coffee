@@ -16,7 +16,7 @@ Meteor.publish 'archive', ->
           sort:
               createdAt: -1
 
-
+#black 15, white 18
 Meteor.methods
     mockData: ->
         console.log 'moching data'
@@ -40,7 +40,7 @@ Meteor.methods
 
     getOrCreateMachine: (sensorId) ->
         if not this.userId
-            throw new Meteor.error "logged-out", "The user must be logged in to create a machine"
+            throw new Meteor.Error "logged-out", "The user must be logged in to create a machine"
         machine = Machines.findOne sensorId
         if not machine
             machine = Machines.insert
@@ -61,7 +61,7 @@ Meteor.methods
     addTemp: (machineId, temp) ->
         # deprecated
         if not this.userId
-            throw new Meteor.error "logged-out", "The user must be logged in to start a run"
+            throw new Meteor.Error "logged-out", "The user must be logged in to start a run"
         latest = Runs.findOne
             machine: machineId
             user: this.userId,
@@ -77,7 +77,7 @@ Meteor.methods
 
     startRun: (machineId) ->
         if not this.userId
-            throw new Meteor.error "logged-out", "The user must be logged in to start a run"
+            throw new Meteor.Error "logged-out", "The user must be logged in to start a run"
 
         machine = Machines.findOne
             _id: machineId
@@ -85,7 +85,7 @@ Meteor.methods
 
         # Make a new machine if it doesn't exist
         if not machine
-            throw new Meteor.error "no-machine", "NO MACHINE EXISTS by that ID"
+            throw new Meteor.Error "no-machine", "NO MACHINE EXISTS by that ID"
 
         Runs.insert
             # New properties

@@ -14,6 +14,6 @@ Npm.depends({ds18x20: '0.1.1'});
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-  api.addFiles('thermsensor.js');
+  api.addFiles('thermsensor.js', 'server');
   api.export("ThermSensor");
 });
