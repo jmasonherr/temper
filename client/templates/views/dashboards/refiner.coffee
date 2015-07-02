@@ -1,6 +1,6 @@
 Template.refiner.onCreated ->
     console.log 'created refiner template'
-    console.log @data._id + ' ' + Meteor.userId()
+    console.log @data._id
     @subscribe 'latest', @data._id # -> # onReady
 
 Template.refiner.helpers

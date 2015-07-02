@@ -1,9 +1,9 @@
 Meteor.publish 'machines', ->
-    Machines.find user: this.userId
+    Machines.find() # user: this.userId
 
 Meteor.publish 'latest', (machineId) ->
     Runs.find
-        user: this.userId,
+        #user: this.userId,
         machine: machineId,
             sort:
                 createdAt: -1
@@ -39,13 +39,13 @@ Meteor.methods
                         , 2000 * i
 
     getOrCreateMachine: (sensorId) ->
-        if not this.userId
-            throw new Meteor.Error "logged-out", "The user must be logged in to create a machine"
+        #if not this.userId
+        #    throw new Meteor.Error "logged-out", "The user must be logged in to create a machine"
         machine = Machines.findOne sensorId
         if not machine
             machine = Machines.insert
               _id: sensorId
-              user: this.userId
+              #user: this.userId
         return sensorId
 
 
@@ -60,11 +60,11 @@ Meteor.methods
 
     addTemp: (machineId, temp) ->
         # deprecated
-        if not this.userId
-            throw new Meteor.Error "logged-out", "The user must be logged in to start a run"
+        #if not this.userId
+        #    throw new Meteor.Error "logged-out", "The user must be logged in to start a run"
         latest = Runs.findOne
             machine: machineId
-            user: this.userId,
+            #user: this.userId,
                 sort:
                     createdAt: -1
         Runs.update latest._id,
@@ -81,7 +81,7 @@ Meteor.methods
 
         machine = Machines.findOne
             _id: machineId
-            user: this.userId
+            #user: this.userId
 
         # Make a new machine if it doesn't exist
         if not machine
@@ -90,7 +90,7 @@ Meteor.methods
         Runs.insert
             # New properties
             machine: machine._id
-            user: machine.user
+            user: this.userId
             createdAt: new Date()
             temps: ['Temperature']
             times: ['x']

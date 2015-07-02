@@ -22,5 +22,4 @@ momentjs:moment
 ian:accounts-ui-bootstrap-3
 sacha:spin
 percolate:synced-cron
-jmasonherr:ds18x20
 jmasonherr:rpi-gpio

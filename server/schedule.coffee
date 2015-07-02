@@ -1,4 +1,5 @@
 Meteor.startup ->
+
     allMachines = Machines.find().fetch()
     console.log(_.pluck(allMachines, '_id'))
 
@@ -14,13 +15,14 @@ Meteor.startup ->
             if fields.status
                 console.log 'SETTING COURSE ' + fields.status
                 #setCourse(id, fields.status)
-
-if process.env.USER == 'pi'
+#[ WHITE:'28-00000651dea5', BLACK:'28-00000688662f' ]
+if process.env.USER == 'pi' or process.env.USER == 'root'
     console.log 'STARTING AS PI'
 
-
     driverLoad = () ->
+
         RPI.destroy ->
+            RPI.setMode(RPI.MODE_BCM)
             if not ThermSensor.isDriverLoaded()
                 ThermSensor.loadDriver()
                 console.log('driver is loaded')
@@ -39,6 +41,16 @@ if process.env.USER == 'pi'
                         console.log 'NO MACHINE FOR ID ' + id
 
     Meteor.startup ->
+        if not Machines.findOne
+            white = Machines.insert # Original machine
+                _id: '28-00000651dea5'
+                pin: 18
+                name: 'Xochipilli'
+            black = Machines.insert # New machine
+                _id: '28-00000651dea5'
+                pin: 15
+                name: 'Xochiquetzal'
+
         setCourse = (runId, course) ->
             run = Runs.findOne runId
             if course == 'done'
