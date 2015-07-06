@@ -1,3 +1,5 @@
+
+
 Meteor.startup ->
 
     allMachines = Machines.find().fetch()
@@ -16,8 +18,8 @@ Meteor.startup ->
                 console.log 'SETTING COURSE ' + fields.status
                 #setCourse(id, fields.status)
 # mongo url gotten by meteor mongo --url
-#mongodb://client-a3915a53:b082910a-3ca3-690d-993d-f7cee307c94f@production-db-a2.meteor.io:27017/temper_meteor_com
 #[ WHITE:'28-00000651dea5', BLACK:'28-00000688662f' ]
+console.log process.env
 if process.env.USER == 'pi' or process.env.USER == 'root'
     console.log 'STARTING AS PI'
 
@@ -44,6 +46,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
     Meteor.startup ->
         if not Machines.findOne
+            console.log 'no machies at startup'
             white = Machines.insert # Original machine
                 _id: '28-00000651dea5'
                 pin: 18
@@ -90,10 +93,10 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                 throw new Meteor.Error("invalid-temp", "Invalid temperature")
 
             # Safety third!
-            if temp >= MAX_TEMP
+            if temp >= 77
                 console.log 'OVER TEMP: ' + run.machine
                 Meteor.call 'stopMachine', run.machine
-            if temp <= MIN_TEMP
+            if temp <= 26.7
                 console.log 'UNDER TEMP: ' + run.machine
                 Meteor.call 'stopMachine', run.machine
 

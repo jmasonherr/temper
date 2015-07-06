@@ -1,6 +1,6 @@
 @CRON_ACTIONS =
     run: (machineId, temp, hours) ->
-        temp = temp || MAX_TEMP
+        temp = temp || 77
         hours = hours || 20
         startTime = new Date()
         temperTime = moment(new Date()).add(20, 'hours')
