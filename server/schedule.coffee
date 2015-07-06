@@ -15,6 +15,8 @@ Meteor.startup ->
             if fields.status
                 console.log 'SETTING COURSE ' + fields.status
                 #setCourse(id, fields.status)
+# mongo url gotten by meteor mongo --url
+#mongodb://client-a3915a53:b082910a-3ca3-690d-993d-f7cee307c94f@production-db-a2.meteor.io:27017/temper_meteor_com
 #[ WHITE:'28-00000651dea5', BLACK:'28-00000688662f' ]
 if process.env.USER == 'pi' or process.env.USER == 'root'
     console.log 'STARTING AS PI'
@@ -47,7 +49,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                 pin: 18
                 name: 'Xochipilli'
             black = Machines.insert # New machine
-                _id: '28-00000651dea5'
+                _id: '28-00000688662f'
                 pin: 15
                 name: 'Xochiquetzal'
 
