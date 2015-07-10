@@ -58,8 +58,6 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                 res = CRON_ACTIONS[course](run.machine)
                 if res
                   SyncedCron.add(res)
-                else
-                  console.log 'no res'
             else
                 console.log 'COURSE ' + course + ' NOT PRESENT IN CRON ACTIONS'
 
@@ -131,6 +129,16 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                 throw new Meteor.Error("machine-not-found", "Can't find machine " + _id)
             if not machine.pin
                 throw new Meteor.Error("require-pin", "Need to add pin for " + _id)
+            temp = ThermSensor.get(_id)
+            if temp >= 77
+                console.log 'ERROR ------  OVER TEMP: ' + _id
+                Meteor.call 'stopMachine', _id
+                return
+            if temp <= 26.7
+                console.log 'ERROR ------  UNDER TEMP' + _id
+                Meteor.call 'stopMachine', _id
+                return
+
             RPI.read machine.pin, (err, isOn) ->
                 if err
                     console.log 'Error reading pin: ' + machine.pin

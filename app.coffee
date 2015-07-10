@@ -1,5 +1,5 @@
 @MOCK_TEMP = 30.1 # Allow us to change and play with a fake teperature
-@ACTIONS =  _.map ['temper', 'pause', 'run', 'stop', 'temperHold', 'done'], (i) ->
+@ACTIONS =  _.map ['temper', 'run', 'stop', 'temperHold', 'done'], (i) ->
             name: i
 
 @Runs = new Mongo.Collection 'runs'
