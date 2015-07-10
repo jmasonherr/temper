@@ -12,6 +12,7 @@
             schedule: (parser) ->
                 parser.text('every 20 seconds')
             job: () ->
+                console.log 'in run job for ' + machineId
                 currentTemp = ThermSensor.get(machineId)
                 Meteor.call 'saveTemp', machineId, currentTemp
                 if new Date() > temperTime
@@ -46,6 +47,8 @@
             schedule: (parser) ->
                 parser.text('every 20 seconds')
             job: () ->
+                console.log 'in tempermelt job for ' + machineId
+
                 currentTemp = ThermSensor.get(machineId)
                 Meteor.call 'saveTemp', machineId, currentTemp
                 if currentTemp >= temp
