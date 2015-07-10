@@ -72,9 +72,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                     _.pluck allMachines, '_id'
         .observeChanges
             changed: (id, fields) ->
-                console.log 'change status1'
                 if fields.status
-                    console.log 'enacting change'
                     setCourse(id, fields.status)
 
         _.each allMachines, (m) ->
