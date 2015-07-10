@@ -28,6 +28,9 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
         RPI.destroy ->
             RPI.setMode(RPI.MODE_BCM)
+            RPI.setup(15, RPI.DIR_OUT)
+            RPI.setup(18, RPI.DIR_OUT)
+
             if not ThermSensor.isDriverLoaded()
                 ThermSensor.loadDriver()
                 console.log('driver is loaded')
@@ -143,6 +146,8 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                 throw new Meteor.Error("machine-not-found", "Can't find machine " + _id)
             if not machine.pin
                 throw new Meteor.Error("require-pin", "Need to add pin for " + _id)
+            RPI.setMode(RPI.MODE_BCM)
+            RPI.setup(machine.pin, RPI.DIR_OUT)
             RPI.write machine.pin, true, (err) ->
                 if err
                     console.log 'ERROR RUNNING PIN ' + machine.pin
@@ -157,7 +162,9 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                 throw new Meteor.Error("machine-not-found", "Can't find machine " + _id)
             if not machine.pin
                 throw new Meteor.Error("require-pin", "Need to add pin for " + _id)
-            RPI.write machine.pin, true, (err) ->
+            RPI.setMode(RPI.MODE_BCM)
+            RPI.setup(machine.pin, RPI.DIR_OUT)
+            RPI.write machine.pin, false, (err) ->
                 if err
                     console.log 'ERROR RUNNING PIN ' + machine.pin
                     console.log err
