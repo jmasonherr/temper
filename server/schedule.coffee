@@ -3,20 +3,21 @@
 Meteor.startup ->
 
     allMachines = Machines.find().fetch()
+    console.log 'machines found'
     console.log(_.pluck(allMachines, '_id'))
 
-    Runs.find
-        machine:
-            $in:
-                _.pluck allMachines, '_id'
-    .observeChanges
-        changed: (id, fields) ->
-            console.log 'CHANGED'
-            console.log id
-            console.log fields
-            if fields.status
-                console.log 'SETTING COURSE ' + fields.status
-                #setCourse(id, fields.status)
+    # Runs.find
+    #     machine:
+    #         $in:
+    #             _.pluck allMachines, '_id'
+    # .observeChanges
+    #     changed: (id, fields) ->
+    #         console.log 'CHANGED'
+    #         console.log id
+    #         console.log fields
+    #         if fields.status
+    #             console.log 'SETTING COURSE ' + fields.status
+    #             #setCourse(id, fields.status)
 # mongo url gotten by meteor mongo --url
 #[ WHITE:'28-00000651dea5', BLACK:'28-00000688662f' ]
 console.log process.env
@@ -59,8 +60,10 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
         setCourse = (runId, course) ->
             run = Runs.findOne runId
             if course == 'done'
+                console.log 'already done, start a newone'
                 return
             if CRON_ACTIONS[course]
+                console.log 'course found, on my way'
                 SyncedCron.add(CRON_ACTIONS[course](run.machine))
             else
                 console.log 'COURSE ' + course + ' NOT PRESENT IN CRON ACTIONS'
@@ -75,7 +78,9 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                     _.pluck allMachines, '_id'
         .observeChanges
             changed: (id, fields) ->
+                console.log 'change status1'
                 if fields.status
+                    console.log 'enacting change'
                     setCourse(id, fields.status)
 
     Meteor.methods
