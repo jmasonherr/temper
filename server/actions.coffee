@@ -1,5 +1,6 @@
 @CRON_ACTIONS =
     run: (machineId, temp, hours) ->
+        console.log 'cron action run'
         temp = temp || 77
         hours = hours || 20
         startTime = new Date()
@@ -20,16 +21,24 @@
         return x
 
     pause: () ->
+        console.log 'cron action pause'
+
         SyncedCron.pause()
 
     stop: (machineId) ->
+        console.log 'cron action stop' + machineId
+
         SyncedCron.remove(machineId)
 
     temper: (machineId) ->
+        console.log 'cron action temper' + machineId
+
         Meteor.call 'saveAction', machineId, 'Starting temper'
         return CRON_ACTIONS['temperMelt'](machineId)
 
     temperMelt: (machineId, temp) ->
+        console.log 'cron action tempermelt' + machineId
+
         temp = temp || 37.7
         SyncedCron.remove(machineId)
         x =

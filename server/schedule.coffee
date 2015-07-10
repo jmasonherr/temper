@@ -64,7 +64,12 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                 return
             if CRON_ACTIONS[course]
                 console.log 'course found, on my way'
-                SyncedCron.add(CRON_ACTIONS[course](run.machine))
+                res = CRON_ACTIONS[course](run.machine)
+                if res
+                  console.log 'res result'
+                  SyncedCron.add(res)
+                else
+                  console.log 'no res'
             else
                 console.log 'COURSE ' + course + ' NOT PRESENT IN CRON ACTIONS'
 
@@ -89,6 +94,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
             Meteor.call('getOrCreateMachine', s) for s in ThermSensor.list()
 
         saveTemp: (machineId, temp) ->
+            console.log 'saving temp'
             run = Runs.findOne machine: machineId,
                 sort:
                     createdAt: -1
@@ -113,6 +119,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                         new Date()
 
         saveAction: (machineId, action) ->
+            console.log 'savingaction'
             run = Runs.findOne machine: machineId,
                 sort:
                     createdAt: -1
@@ -125,6 +132,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                         at: new Date()
 
         spinMachine: (_id) ->
+            console.log 'spinning machine ' + _id
             machine = Machines.findOne _id
             if not machine
                 throw new Meteor.Error("machine-not-found", "Can't find machine " + _id)
@@ -138,6 +146,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
 
         stopMachine: (_id) ->
+            console.log 'stopping machine ' + _id
             machine = Machines.findOne _id
             if not machine
                 throw new Meteor.Error("machine-not-found", "Can't find machine " + _id)
