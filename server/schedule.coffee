@@ -70,7 +70,9 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                   SyncedCron.add(res)
                   console.log 'and next is'
                   console.log SyncedCron.nextScheduledAtDate(run.machine)
-                  console.log 'and now is ' + new Date()
+                  console.log 'and now is '
+                  console.log new Date()
+                  SyncedCron.start()
                 else
                   console.log 'no res'
             else
