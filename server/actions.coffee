@@ -23,7 +23,7 @@ SyncedCron.config
                 if new Date() > temperTime
                     SyncedCron.add(CRON_ACTIONS.temper(machineId))
                 if currentTemp < temp
-                    Meteor.call 'spinMachine', machineId
+                    Meteor.call 'spinMachine', machineId, currentTemp
         return x
 
     stop: (machineId) ->
@@ -52,7 +52,7 @@ SyncedCron.config
                 if currentTemp >= temp
                     SyncedCron.add(CRON_ACTIONS.temperCool(machineId))
                 else
-                    Meteor.call 'spinMachine', machineId
+                    Meteor.call 'spinMachine', machineId, currentTemp
         return x
 
     temperCool: (machineId, temp) ->
@@ -65,7 +65,7 @@ SyncedCron.config
             schedule: (parser) ->
                 parser.text('every 2 minutes')
             job: () ->
-                Meteor.call 'spinMachine', machineId
+                Meteor.call 'spinMachine', machineId, null
                 Meteor.setTimeout () ->
                     Meteor.call 'stopMachine', machineId
                     currentTemp = ThermSensor.get(machineId)
@@ -93,5 +93,5 @@ SyncedCron.config
                 if currentTemp > midTemp
                     Meteor.call 'stopMachine', machineId
                 if currentTemp < midTemp
-                    Meteor.call 'spinMachine', machineId
+                    Meteor.call 'spinMachine', machineId, currentTemp
         return x

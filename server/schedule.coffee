@@ -123,13 +123,13 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                         action: action
                         at: new Date()
 
-        spinMachine: (_id) ->
+        spinMachine: (_id, temp) ->
             machine = Machines.findOne _id
             if not machine
                 throw new Meteor.Error("machine-not-found", "Can't find machine " + _id)
             if not machine.pin
                 throw new Meteor.Error("require-pin", "Need to add pin for " + _id)
-            temp = ThermSensor.get(_id)
+            temp = temp || ThermSensor.get(_id)
             if temp >= 77
                 console.log 'ERROR ------  OVER TEMP: ' + _id
                 Meteor.call 'stopMachine', _id
@@ -154,12 +154,12 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
 
         stopMachine: (_id) ->
-            console.log 'stopping machine ' + _id
             machine = Machines.findOne _id
             if not machine
                 throw new Meteor.Error("machine-not-found", "Can't find machine " + _id)
             if not machine.pin
                 throw new Meteor.Error("require-pin", "Need to add pin for " + _id)
+            console.log 'Stopping machine: ' + machine.name
             RPI.read machine.pin, (err, isOn) ->
                 if err
                     console.log 'ERROR READING PIN' + machine.pin
