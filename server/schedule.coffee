@@ -111,10 +111,10 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
             # Safety third!
             if temp >= 77
                 console.log 'OVER TEMP: ' + run.machine
-                PHYS.stopMachine run.machine
+                Meteor.call 'stopMachine', run.machine
             if temp <= 26.7
                 console.log 'UNDER TEMP: ' + run.machine
-                PHYS.stopMachine run.machine
+                Meteor.call 'stopMachine', run.machine
 
             Runs.update run._id,
                 $push:
