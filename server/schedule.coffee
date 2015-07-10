@@ -3,24 +3,12 @@
 Meteor.startup ->
 
     allMachines = Machines.find().fetch()
-    console.log 'machines found'
+    console.log 'STARTUP MACHINES FOUND'
     console.log(_.pluck(allMachines, '_id'))
 
-    # Runs.find
-    #     machine:
-    #         $in:
-    #             _.pluck allMachines, '_id'
-    # .observeChanges
-    #     changed: (id, fields) ->
-    #         console.log 'CHANGED'
-    #         console.log id
-    #         console.log fields
-    #         if fields.status
-    #             console.log 'SETTING COURSE ' + fields.status
-    #             #setCourse(id, fields.status)
+
 # mongo url gotten by meteor mongo --url
 #[ WHITE:'28-00000651dea5', BLACK:'28-00000688662f' ]
-console.log process.env
 if process.env.USER == 'pi' or process.env.USER == 'root'
     console.log 'STARTING AS PI'
 
@@ -33,7 +21,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
             if not ThermSensor.isDriverLoaded()
                 ThermSensor.loadDriver()
-                console.log('driver is loaded')
+                console.log('STARTUP DRIVER LOADED')
 
                 _.each ThermSensor.list(), (id) ->
                     machine = Machines.findOne id
@@ -50,7 +38,7 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
     Meteor.startup ->
         if not Machines.findOne
-            console.log 'no machies at startup'
+            console.log 'NO MACHINES AT STARTUP'
             white = Machines.insert # Original machine
                 _id: '28-00000651dea5'
                 pin: 18
@@ -63,19 +51,13 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
         setCourse = (runId, course) ->
             run = Runs.findOne runId
             if course == 'done'
-                console.log 'already done, start a newone'
+                console.log 'Run finished for machine : ' + run.machine
                 return
             if CRON_ACTIONS[course]
-                console.log 'course found, on my way'
+                console.log 'Setting course ' + course + ' for machine : ' + run.machine
                 res = CRON_ACTIONS[course](run.machine)
                 if res
-                  console.log 'res result'
                   SyncedCron.add(res)
-                  console.log 'and next is'
-                  console.log SyncedCron.nextScheduledAtDate(run.machine)
-                  console.log 'and now is '
-                  console.log new Date()
-                  SyncedCron.start()
                 else
                   console.log 'no res'
             else
@@ -83,7 +65,6 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
         driverLoad()
         allMachines = Machines.find().fetch()
-        console.log(_.pluck(allMachines, '_id'))
 
         Runs.find
             machine:
@@ -96,13 +77,21 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                     console.log 'enacting change'
                     setCourse(id, fields.status)
 
+        _.each allMachines, (m) ->
+            run = Runs.findOne machine: m._id,
+                sort:
+                    createdAt: -1
+                limit: 1
+            setCourse run._id, run.status
+
+        SyncedCron.start()
+
     Meteor.methods
         initSensors: () ->
             driverLoad()
             Meteor.call('getOrCreateMachine', s) for s in ThermSensor.list()
 
         saveTemp: (machineId, temp) ->
-            console.log 'saving temp'
             run = Runs.findOne machine: machineId,
                 sort:
                     createdAt: -1
@@ -113,10 +102,10 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
             # Safety third!
             if temp >= 77
-                console.log 'OVER TEMP: ' + run.machine
+                console.log 'ERROR ------  OVER TEMP: ' + run.machine
                 Meteor.call 'stopMachine', run.machine
             if temp <= 26.7
-                console.log 'UNDER TEMP: ' + run.machine
+                console.log 'ERROR ------  UNDER TEMP' + run.machine
                 Meteor.call 'stopMachine', run.machine
 
             Runs.update run._id,
@@ -127,7 +116,6 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                         new Date()
 
         saveAction: (machineId, action) ->
-            console.log 'savingaction'
             run = Runs.findOne machine: machineId,
                 sort:
                     createdAt: -1
@@ -140,7 +128,6 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                         at: new Date()
 
         spinMachine: (_id) ->
-            console.log 'spinning machine ' + _id
             machine = Machines.findOne _id
             if not machine
                 throw new Meteor.Error("machine-not-found", "Can't find machine " + _id)
@@ -148,11 +135,12 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
                 throw new Meteor.Error("require-pin", "Need to add pin for " + _id)
             RPI.read machine.pin, (err, isOn) ->
                 if err
-                    console.log 'ERROR READING PIN' + machine.pin
+                    console.log 'Error reading pin: ' + machine.pin
                 if not isOn
+                    console.log "Starting machine: " + machine.name
                     RPI.write machine.pin, true, (err) ->
                         if err
-                            console.log 'ERROR RUNNING PIN ' + machine.pin
+                            console.log 'Eror running pin: ' + machine.pin
                             console.log err
                             RPI.setMode(RPI.MODE_BCM)
                             RPI.setup(machine.pin, RPI.DIR_OUT)

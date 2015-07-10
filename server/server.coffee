@@ -19,13 +19,12 @@ Meteor.publish 'archive', ->
 #black 15, white 18
 Meteor.methods
     mockData: ->
-        console.log 'moching data'
-        console.log this.userId
+        console.log '............MOCKING...........'
+        console.log 'User id: ' + this.userId
         if this.userId
             if not Machines.findOne()
-                console.log 'not machines'
+                console.log '........ NO MACHINES ...........'
                 Meteor.call 'getOrCreateMachine', 'machine1', ->
-                    console.log 'machine1 '
                     Meteor.call 'startRun', 'machine1', ->
                         _.each _.range(1,10), (i) ->
                             Meteor.setTimeout ->
@@ -56,7 +55,7 @@ Meteor.methods
             $set:
                 status: status
         if status != 'done'
-            SyncedCron.add(CRON_ACTIONS[status](machineId))
+            SyncedCron.add(CRON_ACTIONS[status](run.machine))
 
     addTemp: (machineId, temp) ->
         # deprecated

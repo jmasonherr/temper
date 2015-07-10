@@ -1,6 +1,12 @@
+SyncedCron.config
+  log: false
+
+
+
+
 @CRON_ACTIONS =
     run: (machineId, temp, hours) ->
-        console.log 'cron action run'
+        console.log 'Begin CRON JOB "run" for: ' + machineId
         temp = temp || 77
         hours = hours || 20
         startTime = new Date()
@@ -12,7 +18,6 @@
             schedule: (parser) ->
                 parser.text('every 20 seconds')
             job: () ->
-                console.log 'in run job for ' + machineId
                 currentTemp = ThermSensor.get(machineId)
                 Meteor.call 'saveTemp', machineId, currentTemp
                 if new Date() > temperTime
@@ -21,24 +26,23 @@
                     Meteor.call 'spinMachine', machineId
         return x
 
-    pause: () ->
-        console.log 'cron action pause'
+    # pause: () ->
+    #     console.log 'cron action pause'
 
-        SyncedCron.pause()
+    #     #SyncedCron.pause()
 
     stop: (machineId) ->
-        console.log 'cron action stop' + machineId
-
+        console.log 'STOP CRON JOB for: ' + machineId
         SyncedCron.remove(machineId)
 
     temper: (machineId) ->
-        console.log 'cron action temper' + machineId
+        console.log 'Begin CRON JOB "temper" for: ' + machineId
 
         Meteor.call 'saveAction', machineId, 'Starting temper'
         return CRON_ACTIONS['temperMelt'](machineId)
 
     temperMelt: (machineId, temp) ->
-        console.log 'cron action tempermelt' + machineId
+        console.log 'Begin CRON PHASE "temperMelt" for: ' + machineId
 
         temp = temp || 37.7
         SyncedCron.remove(machineId)
@@ -47,8 +51,6 @@
             schedule: (parser) ->
                 parser.text('every 20 seconds')
             job: () ->
-                console.log 'in tempermelt job for ' + machineId
-
                 currentTemp = ThermSensor.get(machineId)
                 Meteor.call 'saveTemp', machineId, currentTemp
                 if currentTemp >= temp
@@ -58,6 +60,8 @@
         return x
 
     temperCool: (machineId, temp) ->
+        console.log 'Begin CRON PHASE "temperCool" for: ' + machineId
+
         temp = temp || 27.7
         SyncedCron.remove(machineId)
         x =
@@ -76,6 +80,8 @@
         return x
 
     temperHold: (machineId, minTemp, maxTemp) ->
+        console.log 'Begin CRON PHASE "temper" for: ' + machineId
+
         minTemp = minTemp || 31.9
         maxTemp = maxTemp || 32.5
         midTemp = (minTemp + maxTemp) / 2.0
