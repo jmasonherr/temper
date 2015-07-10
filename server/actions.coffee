@@ -21,25 +21,21 @@ SyncedCron.config
                 currentTemp = ThermSensor.get(machineId)
                 Meteor.call 'saveTemp', machineId, currentTemp
                 if new Date() > temperTime
-                    SyncedCron.add(CRON_ACTIONS['temper'](machineId))
+                    SyncedCron.add(CRON_ACTIONS.temper(machineId))
                 if currentTemp < temp
                     Meteor.call 'spinMachine', machineId
         return x
 
-    # pause: () ->
-    #     console.log 'cron action pause'
-
-    #     #SyncedCron.pause()
-
     stop: (machineId) ->
         console.log 'STOP CRON JOB for: ' + machineId
+        Meteor.call 'stopMachine', machineId
         SyncedCron.remove(machineId)
 
     temper: (machineId) ->
         console.log 'Begin CRON JOB "temper" for: ' + machineId
 
         Meteor.call 'saveAction', machineId, 'Starting temper'
-        return CRON_ACTIONS['temperMelt'](machineId)
+        return CRON_ACTIONS.temperMelt(machineId)
 
     temperMelt: (machineId, temp) ->
         console.log 'Begin CRON PHASE "temperMelt" for: ' + machineId
@@ -54,7 +50,7 @@ SyncedCron.config
                 currentTemp = ThermSensor.get(machineId)
                 Meteor.call 'saveTemp', machineId, currentTemp
                 if currentTemp >= temp
-                    SyncedCron.add(CRON_ACTIONS['temperCool'](machineId))
+                    SyncedCron.add(CRON_ACTIONS.temperCool(machineId))
                 else
                     Meteor.call 'spinMachine', machineId
         return x
@@ -75,7 +71,7 @@ SyncedCron.config
                     currentTemp = ThermSensor.get(machineId)
                     Meteor.call 'saveTemp', machineId, currentTemp
                     if currentTemp <= temp
-                        SyncedCron.add(CRON_ACTIONS['temperHold'](machineId))
+                        SyncedCron.add(CRON_ACTIONS.temperHold(machineId))
                 , 2000
         return x
 
