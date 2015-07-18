@@ -18,7 +18,7 @@ DONUT_OPTS =
 Template.run.onRendered ->
     self = @
     @$('.bean')
-        .editable({autotext: never})
+        .editable({autotext: 'never', emptytext: 'Bean name'})
         .on 'save', (e, params) ->
             #$(@).setValue('').hide()
             #setParams = {}
@@ -28,7 +28,7 @@ Template.run.onRendered ->
                     title: params.newValue
 
     @$('.machine-name')
-        .editable({autotext: never})
+        .editable({autotext: 'never', emptytext: 'Machine name'})
         .on 'save', (e, params) ->
             Machines.update self.machine,
                 $set:
