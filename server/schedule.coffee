@@ -50,6 +50,14 @@ if process.env.USER == 'pi' or process.env.USER == 'root'
 
         setCourse = (runId, course) ->
             run = Runs.findOne runId
+            if course == 'shutdown'
+                console.log 'Shutting down'
+                exec = require('exec')
+                exec 'sudo shutdown -h now', (err, out, code) ->
+                    console.log 'shutting down....'
+                    console.log err
+                    console.log out
+                    console.log code
             if course == 'done'
                 console.log 'Run finished for machine : ' + run.machine
                 return
