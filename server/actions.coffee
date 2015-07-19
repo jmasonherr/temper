@@ -88,10 +88,14 @@ SyncedCron.config
             schedule: (parser) ->
                 parser.text('every 30 seconds')
             job: () ->
-                currentTemp = ThermSensor.get(machineId)
-                Meteor.call 'saveTemp', machineId, currentTemp
-                if currentTemp > midTemp
+                Meteor.call 'spinMachine', machineId, null
+                Meteor.setTimeout () ->
                     Meteor.call 'stopMachine', machineId
-                if currentTemp < midTemp
-                    Meteor.call 'spinMachine', machineId, currentTemp
+                    currentTemp = ThermSensor.get(machineId)
+                    Meteor.call 'saveTemp', machineId, currentTemp
+                    if currentTemp > midTemp
+                        Meteor.call 'stopMachine', machineId
+                    if currentTemp < midTemp
+                        Meteor.call 'spinMachine', machineId, currentTemp
+                , 2000
         return x
