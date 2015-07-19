@@ -78,8 +78,8 @@ SyncedCron.config
     temperHold: (machineId, minTemp, maxTemp) ->
         console.log 'Begin CRON PHASE "temper" for: ' + machineId
 
-        minTemp = minTemp || 32.9
-        maxTemp = maxTemp || 33.5
+        minTemp = minTemp || 31.9
+        maxTemp = maxTemp || 32.5
         midTemp = (minTemp + maxTemp) / 2.0
         SyncedCron.remove(machineId)
         Meteor.call 'saveAction', machineId, 'Holding temper'
