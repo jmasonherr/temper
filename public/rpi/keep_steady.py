@@ -27,7 +27,7 @@ ID_TO_PIN = {
     '28-00000651dea5': 18,  #  name: 'Xochipilli'
     '28-00000688662f': 15,  #  name: 'Xochiquetzal'
 }
-TESTING = True
+TESTING = False
 URL = 'http://localhost:3000' if TESTING else 'http://temper.meteor.com'
 import time
 import json
