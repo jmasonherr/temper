@@ -1,4 +1,6 @@
 # Keep the temperature steady for grating tempered cocoa butter into
+# -*- coding: utf-8 -*-
+
 """
 We want 33.6 C for the cocoa butter
 we want 33-34 for the chocolate mass

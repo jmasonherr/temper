@@ -21,7 +21,6 @@ momentjs:moment
 ian:accounts-ui-bootstrap-3
 sacha:spin
 jmasonherr:rpi-gpio
-jmasonherr:ds18x20
 standard-minifiers
 meteor-base
 mobile-experience
