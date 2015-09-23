@@ -53,7 +53,8 @@ def flash_error():
         pin = RELAY
         # Accomodate multiples
         if sensor.id in ID_TO_PIN:
-            pin = ID_TO_PIN[sensor.id]
+            _sid = '28-' + sensor.id
+            pin = ID_TO_PIN[_sid]
         GPIO.output(pin, False)
     # Flash every second
     while True:
@@ -88,8 +89,9 @@ def main(post=False):
         # Setup sensors
         for sensor in W1ThermSensor.get_available_sensors():
             print 'Detected sensor ', sensor.id
-            if sensor.id in ID_TO_PIN:
-                _pin = ID_TO_PIN[sensor.id]
+            _sid = '28-' + sensor.id
+            if _sid in ID_TO_PIN:
+                _pin = ID_TO_PIN[_sid]
             responses[sensor.id] = {'status': 'temper'}
 
             GPIO.setup(_pin, GPIO.OUT)
@@ -105,8 +107,9 @@ def main(post=False):
         print 'Loooooooping....'
         for sensor in W1ThermSensor.get_available_sensors():
             print sensor.id
-            sensorId = sensor.id
+            sensorId = '28-' + sensor.id
             t = sensor.get_temperature()
+            print t
 
             action = responses[sensorId]['status']
 
