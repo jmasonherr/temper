@@ -64,8 +64,13 @@ def postTemp(sensorId, temp):
     data = {'secret': 'iridemybicycle'}
     data['sensorId'] = sensorId
     data['temp'] = temp
-    response = requests.post(URL + '/temp', json.dumps(data), headers=headers)
-    print response
+    try:
+        response = requests.post(URL + '/temp', json.dumps(data), headers=headers)
+    except Exception, e:
+        print 'EXCEPTION POSTING TEMP'
+        print data
+        print e
+    return response
 
 
 def main(post=False):
