@@ -4,7 +4,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 iron:router
 less
 jquery
@@ -21,6 +20,19 @@ d3js:d3
 momentjs:moment
 ian:accounts-ui-bootstrap-3
 sacha:spin
-percolate:synced-cron
 jmasonherr:rpi-gpio
 jmasonherr:ds18x20
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+underscorestring:underscore.string

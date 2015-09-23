@@ -21,7 +21,10 @@ T = 33.4
 RELAY = 15
 LIGHT = 18
 BREAK = 33.4
-ID_TO_PIN = {}
+ID_TO_PIN = {
+    '28-00000651dea5': 18,  #  name: 'Xochipilli'
+    '28-00000688662f': 15,  #  name: 'Xochiquetzal'
+}
 TESTING = True
 URL = 'http://localhost:3000' if TESTING else 'http://temper.meteor.com'
 import time
@@ -66,8 +69,10 @@ def postTemp(sensorId, temp):
 
 
 def main(post=False):
+    print 'running main...'
     responses = {}
     try:
+        print 'Getting GPIO ready'
         GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(LIGHT, GPIO.OUT)
@@ -75,11 +80,14 @@ def main(post=False):
 
         # Setup sensors
         for sensor in W1ThermSensor.get_available_sensors():
+            print 'Detected sensor ', sensor.id
             if sensor.id in ID_TO_PIN:
                 _pin = ID_TO_PIN[sensor.id]
             responses[sensor.id] = {'status': 'temper'}
 
             GPIO.setup(_pin, GPIO.OUT)
+            print 'Success with one sensor'
+        print 'Success with all sensors'
     except Exception, e:
         print 'EXCEPTION SETTING UP MAIN GPIO'
         print e
@@ -87,7 +95,9 @@ def main(post=False):
 
     while True:
         time.sleep(3)
+        print 'Loooooooping....'
         for sensor in W1ThermSensor.get_available_sensors():
+            print sensor.id
             sensorId = sensor.id
             t = sensor.get_temperature()
 
@@ -101,6 +111,7 @@ def main(post=False):
 
             # Is it a real reading?
             if t == 85.0:
+                print 'Not a real reading on ', sensorId
                 continue
 
             pin = RELAY
@@ -110,29 +121,39 @@ def main(post=False):
 
             # Safety checks
             if t >= 65.0 or t <= 27.0:
+                print 'TOO HOT on ', sensorId
                 # Too hot or too cold
                 off(pin)
                 flash_error()
 
             if action == 'temper':
+                print 'TEMPERING ', sensorId
                 if t < BREAK:
                     on(pin)
                 if t >= BREAK:
                     off(pin)
 
             elif action == 'stop':
+                print 'Stopping ', sensorId
+
                 off(pin)
 
             elif action == 'run':
+                print 'Running ', sensorId
+
                 on(pin)
 
             else:
-                print 'UNKNOWN ACTION:', action
+                print 'UNKNOWN ACTION:', action, sensorId
 
             if post:
                 response = postTemp(sensorId, t)
                 if response.status_code == 200:
+                    print '200 Response for ', sensorId
                     responses[sensorId] = response.json()
+                else:
+                    print response
+                    print 'Error in post, not 200 - ', response.status_code
 
 
 if __name__ == '__main__':

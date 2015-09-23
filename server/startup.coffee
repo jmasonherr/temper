@@ -11,10 +11,9 @@ Meteor.startup ->
             _id: '28-00000651dea5'
             pin: 18
             name: 'Xochipilli'
+            user: 'dy8TuaSZxqH6CoYsE'
         black = Machines.insert # New machine
             _id: '28-00000688662f'
             pin: 15
             name: 'Xochiquetzal'
-
-
-
+            user: 'dy8TuaSZxqH6CoYsE'
