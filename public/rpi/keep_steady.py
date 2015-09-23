@@ -76,7 +76,7 @@ def postTemp(sensorId, temp):
     return response
 
 
-def main(post=False):
+def main(post=True):
     print 'running main...'
     responses = {}
     try:
@@ -117,6 +117,7 @@ def main(post=False):
                 if response.status_code == 200:
                     print '200 Response for ', sensorId
                     responses[sensorId] = response.json()
+
                     action = response.json()['status']
                 else:
                     print response
