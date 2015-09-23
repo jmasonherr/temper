@@ -176,4 +176,9 @@ def main(post=True):
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except:
+        print 'Quitting'
+    finally:
+        GPIO.cleanup()
