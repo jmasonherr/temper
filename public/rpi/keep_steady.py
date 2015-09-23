@@ -103,7 +103,7 @@ def main(post=True):
         GPIO.cleanup()
 
     while True:
-        time.sleep(3)
+        time.sleep(30)
         print 'Loooooooping....'
         for sensor in W1ThermSensor.get_available_sensors():
             print sensor.id
