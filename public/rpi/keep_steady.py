@@ -130,10 +130,10 @@ def main(post=True):
             print action
 
             # Light up
-            if 33.0 <= t <= 33.5:
-                on(LIGHT)
-            else:
-                off(LIGHT)
+            # if 33.0 <= t <= 33.5:
+            #     on(LIGHT)
+            # else:
+            #     off(LIGHT)
 
             # Is it a real reading?
             if t == 85.0:
