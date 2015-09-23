@@ -92,7 +92,7 @@ def main(post=False):
             _sid = '28-' + sensor.id
             if _sid in ID_TO_PIN:
                 _pin = ID_TO_PIN[_sid]
-            responses[sensor.id] = {'status': 'temper'}
+            responses[_sid] = {'status': 'temper'}
 
             GPIO.setup(_pin, GPIO.OUT)
             print 'Success with one sensor'
