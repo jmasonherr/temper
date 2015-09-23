@@ -110,8 +110,19 @@ def main(post=False):
             sensorId = '28-' + sensor.id
             t = sensor.get_temperature()
             print t
-
             action = responses[sensorId]['status']
+
+            if post:
+                response = postTemp(sensorId, t)
+                if response.status_code == 200:
+                    print '200 Response for ', sensorId
+                    responses[sensorId] = response.json()
+                    action = response.json()['status']
+                else:
+                    print response
+                    print 'Error in post, not 200 - ', response.status_code
+
+            print action
 
             # Light up
             if 33.0 <= t <= 33.5:
@@ -156,14 +167,7 @@ def main(post=False):
             else:
                 print 'UNKNOWN ACTION:', action, sensorId
 
-            if post:
-                response = postTemp(sensorId, t)
-                if response.status_code == 200:
-                    print '200 Response for ', sensorId
-                    responses[sensorId] = response.json()
-                else:
-                    print response
-                    print 'Error in post, not 200 - ', response.status_code
+
 
 
 if __name__ == '__main__':
