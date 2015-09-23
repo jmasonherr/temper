@@ -1,5 +1,5 @@
 @MOCK_TEMP = 30.1 # Allow us to change and play with a fake teperature
-@ACTIONS =  _.map ['temper', 'run', 'stop', 'temperHold', 'done'], (i) ->
+@ACTIONS =  _.map ['temper', 'run', 'stop'], (i) ->
             name: i
 
 @Runs = new Mongo.Collection 'runs'
@@ -10,11 +10,6 @@ Router.configure
     notFoundTemplate: 'notFound'
 
 Router.map ->
-
-  @route '/',
-    where: 'client'
-    action: ->
-      Router.go 'dashboard'
 
   @route '/dashboard',
     where: 'client'
@@ -27,6 +22,68 @@ Router.map ->
     where: 'client'
     name: 'archive'
     template: 'archive'
+
+  @route '/temp',
+    where: 'server'
+    name: 'temp'
+    action: ->
+      if @request.body.secret == 'iridemybicycle'
+        console.log '###############'
+        _id = _saveTemp @request.body.sensorId, @request.body.temp
+        console.log @request.body.temp
+        console.log @request.body.sensorId
+
+        @response.writeHead(200, {'Content-Type': 'application/json'})
+        @response.end(JSON.stringify(Runs.findOne(_id)))
+      else
+        console.log 'ERROR BAD SECRET'
+
+  @route '/',
+    where: 'client'
+    action: ->
+      Router.go 'dashboard'
+
+
+_saveTemp = (machineId, temp) ->
+  run = Runs.findOne machine: machineId,
+      sort:
+        createdAt: -1
+      limit: 1
+
+  if temp == 85.0
+    throw new Meteor.Error("invalid-temp", "Invalid temperature")
+
+  Runs.update run._id,
+    $push:
+      temps:
+        temp
+      times:
+        new Date()
+
+  return run._id
+
+_saveAction = (machineId, action) ->
+  run = Runs.findOne machine: machineId,
+    sort:
+      createdAt: -1
+    limit: 1
+
+  Runs.update run._id,
+    $push:
+      actionHistory:
+        action: action
+        at: new Date()
+
+  return run._id
+
+
+# Meteor.methods
+  # saveTemp: (machineId, temp) ->
+  #   return _saveTemp(machineId, temp)
+
+  # saveAction: (machineId, action) ->
+  #   return _saveAction(machineId, action)
+
 
 
 Runs.allow

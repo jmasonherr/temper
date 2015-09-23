@@ -239,10 +239,10 @@
 // // Global - Remove splash screen after after rendered layout
 // //
 
-Router.onAfterAction(function()
-{
-    setTimeout(function()
-    {
-        $('.splash').css('display', 'none')
-    })
-});
+// Router.onAfterAction(function()
+// {
+//     setTimeout(function()
+//     {
+//         $('.splash').css('display', 'none')
+//     })
+// });
