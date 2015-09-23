@@ -108,7 +108,11 @@ def main(post=True):
         for sensor in W1ThermSensor.get_available_sensors():
             print sensor.id
             sensorId = '28-' + sensor.id
-            t = sensor.get_temperature()
+            try:
+                t = sensor.get_temperature()
+            except:
+                print 'Sensor not ready....', sensorId
+                continue
             print t
             action = responses[sensorId]['status']
 
