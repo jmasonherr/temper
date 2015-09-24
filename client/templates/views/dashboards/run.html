@@ -28,7 +28,7 @@
                 <div class="small">
                     <div class="btn-group">
                         <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle">
-                            <i class="fa fa-clock-o"></i> {{status}} <span class="caret"></span></button>
+                            <i class="fa fa-clock-o {{#if isRogered}} btn-success{{/if}}"></i> {{status}} <span class="caret"></span></button>
                             <ul class="dropdown-menu action-menu">
                                 {{#each actions}}
                                 {{#if isStatus name}}

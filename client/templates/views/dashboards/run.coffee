@@ -120,11 +120,15 @@ Template.run.helpers
     isStatus: (statusName) ->
         statusName == Template.currentData().status
 
+    isRogered: ->
+        Template.currentData().roger
+
 Template.run.events
     'click ul.action-menu a': (e, tmpl) ->
         Runs.update Template.currentData()._id,
             $set:
                 status: @name
+                roger: false
             $push:
                 actionHistory:
                       action: @name

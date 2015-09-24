@@ -1,5 +1,9 @@
 <template name="refiner">
     <div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-default">New</button>
+    </div>
+
         {{#if Template.subscriptionsReady}}
         {{# each runs _id}}
             {{> run}}
@@ -8,4 +12,5 @@
             {{> spinner}}
         {{/if}}
     </div>
+
 </template>

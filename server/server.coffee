@@ -10,11 +10,11 @@ Meteor.publish 'latest', (machineId) ->
             limit: 1
 
 Meteor.publish 'archive', ->
-  Runs.find
-      user: this.userId
-      status: 'done',
-          sort:
-              createdAt: -1
+    Runs.find user: this.userId,
+        sort:
+            createdAt: -1
+        limit: 20
+
 
 #black 15, white 18
 Meteor.methods
@@ -97,6 +97,7 @@ Meteor.methods
             actionHistory: [{action: 'Created', at: new Date()}] # {action: 'stop', at: ...}
             title: '' # Bean name
             roast: ''
+            roger: false
             components: [
                 name: 'beans'
                 qty: 0,

@@ -7,3 +7,7 @@ Template.refiner.helpers
             sort:
                 createdAt: -1
             limit: 1
+
+Template.refiner.events
+    'click button': (e, tmpl) ->
+        Meteor.call('startRun', @_id)

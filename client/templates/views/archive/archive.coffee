@@ -5,7 +5,7 @@ Template.archive.onCreated ->
 
 Template.archive.helpers
     runs: ->
-        Runs.find status: 'done'
+        Runs.find()
 
 
 
