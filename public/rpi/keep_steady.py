@@ -38,13 +38,13 @@ from w1thermsensor import W1ThermSensor
 
 
 def on(pin):
-    if not GPIO.input(pin):
-        GPIO.output(pin, True)
+    if GPIO.input(pin):
+        GPIO.output(pin, False)
 
 
 def off(pin):
-    if GPIO.input(pin):
-        GPIO.output(pin, False)
+    if not GPIO.input(pin):
+        GPIO.output(pin, True)
 
 
 def flash_error():
@@ -76,7 +76,8 @@ def postTemp(sensorId, temp):
     return response
 
 
-def main(post=True):
+def main(post=False):
+    seen = []
     print 'running main...'
     responses = {}
     try:
@@ -103,7 +104,7 @@ def main(post=True):
         GPIO.cleanup()
 
     while True:
-        time.sleep(30)
+        time.sleep(3)
         print 'Loooooooping....'
         for sensor in W1ThermSensor.get_available_sensors():
             print sensor.id
