@@ -1,3 +1,6 @@
+Kadira.connect('mggXXtiNMT7Nzm9m7', '8f7af99a-a215-462e-b34a-303e656cadbf');
+
+
 Meteor.publish 'machines', ->
     Machines.find() # user: this.userId
 
