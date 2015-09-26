@@ -54,7 +54,8 @@ _saveTemp = (machineId, temp) ->
     throw new Meteor.Error("invalid-temp", "Invalid temperature")
 
   Runs.update run._id,
-    roger: true
+    $set:
+      roger: true
     $push:
       temps:
         temp
