@@ -19,10 +19,10 @@ sites. The result is that your chocolate tempers very quickly.
    faster and can give a nicer looking chocolate.
 """
 
-T = 33.4
+T = 33.0
 RELAY = 15
 LIGHT = 18
-BREAK = 33.4
+BREAK = 33.0
 ID_TO_PIN = {
     '28-00000651dea5': 18,  #  name: 'Xochipilli'
     '28-00000688662f': 15,  #  name: 'Xochiquetzal'
@@ -103,74 +103,80 @@ def main(post=True):
         GPIO.cleanup()
 
     while True:
-        time.sleep(30)
+        i = 0;
+        time.sleep(3)
         print 'Loooooooping....'
-        for sensor in W1ThermSensor.get_available_sensors():
-            print sensor.id
-            sensorId = '28-' + sensor.id
-            try:
-                t = sensor.get_temperature()
-            except:
-                print 'Sensor not ready....', sensorId
-                continue
-            print t
-            action = responses[sensorId]['status']
+        try:
+            for sensor in W1ThermSensor.get_available_sensors():
+                print sensor.id
+                sensorId = '28-' + sensor.id
+                try:
+                    t = sensor.get_temperature()
+                except:
+                    print 'Sensor not ready....', sensorId
+                    continue
+                print t
+                action = responses[sensorId]['status']
 
-            if post:
-                response = postTemp(sensorId, t)
-                if response.status_code == 200:
-                    print '200 Response for ', sensorId
-                    responses[sensorId] = response.json()
+                if post and (i % 10) == 0:
+                    response = postTemp(sensorId, t)
+                    if response.status_code == 200:
+                        print '200 Response for ', sensorId
+                        responses[sensorId] = response.json()
 
-                    action = response.json()['status']
-                else:
-                    print response
-                    print 'Error in post, not 200 - ', response.status_code
+                        action = response.json()['status']
+                    else:
+                        print response
+                        print 'Error in post, not 200 - ', response.status_code
 
-            print action
+                print action
 
-            # Light up
-            # if 33.0 <= t <= 33.5:
-            #     on(LIGHT)
-            # else:
-            #     off(LIGHT)
+                # Light up
+                # if 33.0 <= t <= 33.5:
+                #     on(LIGHT)
+                # else:
+                #     off(LIGHT)
 
-            # Is it a real reading?
-            if t == 85.0:
-                print 'Not a real reading on ', sensorId
-                continue
+                # Is it a real reading?
+                if t == 85.0:
+                    print 'Not a real reading on ', sensorId
+                    continue
 
-            pin = RELAY
-            # Accomodate multiples
-            if sensorId in ID_TO_PIN:
-                pin = ID_TO_PIN[sensorId]
+                pin = RELAY
+                # Accomodate multiples
+                if sensorId in ID_TO_PIN:
+                    pin = ID_TO_PIN[sensorId]
 
-            # Safety checks
-            if t >= 65.0 or t <= 27.0:
-                print 'TOO HOT on ', sensorId
-                # Too hot or too cold
-                off(pin)
-                flash_error()
+                # Safety checks
+                if t >= 65.0 or t <= 27.0:
+                    print 'TOO HOT on ', sensorId
+                    # Too hot or too cold
+                    off(pin)
+                    flash_error()
 
-            if action == 'temper':
-                print 'TEMPERING ', sensorId
-                if t < BREAK:
-                    on(pin)
-                if t >= BREAK:
+                if action == 'temper':
+                    print 'TEMPERING ', sensorId
+                    if t < BREAK:
+                        on(pin)
+                    if t >= BREAK:
+                        off(pin)
+
+                elif action == 'stop':
+                    print 'Stopping ', sensorId
+
                     off(pin)
 
-            elif action == 'stop':
-                print 'Stopping ', sensorId
+                elif action == 'run':
+                    print 'Running ', sensorId
 
-                off(pin)
+                    on(pin)
 
-            elif action == 'run':
-                print 'Running ', sensorId
+                else:
+                    print 'UNKNOWN ACTION:', action, sensorId
+        except Exception, e:
+            print "EXCEPTION IN RULOOP", e
 
-                on(pin)
-
-            else:
-                print 'UNKNOWN ACTION:', action, sensorId
+        i += 1
 
 
 
