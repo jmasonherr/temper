@@ -57,9 +57,9 @@ def flash_error():
             pin = ID_TO_PIN[_sid]
         GPIO.output(pin, False)
     # Flash every second
-    while True:
-        time.sleep(1)
-        GPIO.output(LIGHT, not GPIO.input(LIGHT))
+    #while True:
+        #time.sleep(1)
+        #GPIO.output(LIGHT, not GPIO.input(LIGHT))
 
 
 def postTemp(sensorId, temp):
