@@ -24,6 +24,7 @@ RELAY = 15
 LIGHT = 18
 BREAK = 33.0
 ID_TO_PIN = {
+    '28-000006893209': 15,
     '28-00000651dea5': 18,  #  name: 'Xochipilli'
     '28-00000688662f': 15,  #  name: 'Xochiquetzal'
 }
@@ -128,6 +129,7 @@ def main(post=True):
                     else:
                         print response
                         print 'Error in post, not 200 - ', response.status_code
+                        print response.content
 
                 print action
 

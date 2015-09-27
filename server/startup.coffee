@@ -5,6 +5,15 @@
 #     console.log 'STARTING AS PI'
 
 Meteor.startup ->
+    if not Machines.findOne '28-000006893209'
+        tilting1 = Machines.insert # Original machine
+            _id: '28-000006893209'
+            pin: 15
+            name: 'Xochiquetzal'
+            user: 'dy8TuaSZxqH6CoYsE'
+
+        Meteor.call 'startRun', '28-000006893209'
+
     if not Machines.findOne
         console.log 'NO MACHINES AT STARTUP'
         white = Machines.insert # Original machine
