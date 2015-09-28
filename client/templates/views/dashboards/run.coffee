@@ -37,12 +37,15 @@ Template.run.onRendered ->
     lineChart = null
     donutChart = null
 
-    Runs.find(@data._id).observe
-        changed: ->
-            buildCharts()
+    Runs.find(@data._id).observeChanges
+        changed: (id, fields) ->
+            if fields.components
+                buildDonut()
+            if fields.times or fields.temps
+                buildLine()
 
-    buildCharts = ->
-        console.log 'observing'
+    buildDonut = ->
+        console.log 'observing donut'
         run = Runs.findOne self.data._id
 
 
@@ -50,7 +53,14 @@ Template.run.onRendered ->
             value: c.qty
             label: c.name
             color: INGREDIENT_COLORS[c.name] || '#62cb31'
+
+        donut = self.find('canvas.donut')
+        donutChart = new Chart(donut.getContext("2d")).Doughnut(donutData,DONUT_OPTS)
             highlight: "#57b32c"
+
+    buildLine = ->
+        console.log 'observing line'
+        run = Runs.findOne self.data._id
 
         lineElem = self.find('.flot-line-chart')
 
@@ -68,8 +78,7 @@ Template.run.onRendered ->
                     tick:
                         format: (t) -> moment(t).format('h:mm a')
 
-        donut = self.find('canvas.donut')
-        donutChart = new Chart(donut.getContext("2d")).Doughnut(donutData,DONUT_OPTS)
+
         if lineChart # update chart
             lineChart.load
                 columns: [
@@ -78,7 +87,10 @@ Template.run.onRendered ->
                 ]
         else  # load data
             lineChart = c3.generate chartParams
-    Meteor.setTimeout buildCharts, 200
+    Meteor.setTimeout ->
+        buildLine()
+        buildDonut()
+    , 200
 
 
 Template.run.helpers
@@ -125,14 +137,15 @@ Template.run.helpers
 
 Template.run.events
     'click ul.action-menu a': (e, tmpl) ->
-        Runs.update Template.currentData()._id,
-            $set:
-                status: @name
-                roger: false
-            $push:
-                actionHistory:
-                      action: @name
-                      at: new Date
+        Meteor.call 'setCourse', Template.currentData()._id, @name
+        # Runs.update Template.currentData()._id,
+        #     $set:
+        #         status: @name
+        #         roger: false
+        #     $push:
+        #         actionHistory:
+        #               action: @name
+        #               at: new Date
 
     'click .donut': (e, tmpl) ->
         console.log 'clicked donut'

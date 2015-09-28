@@ -28,11 +28,8 @@ Router.map ->
     name: 'temp'
     action: ->
       if @request.body.secret == 'iridemybicycle'
-        console.log '###############'
-        _id = _saveTemp @request.body.sensorId, @request.body.temp
-        console.log @request.body.temp
-        console.log @request.body.sensorId
-
+        machineId = @request.body.sensorId
+        _id = Meteor.call 'addTemp', machineId, @request.body.temp
         @response.writeHead(200, {'Content-Type': 'application/json'})
         @response.end(JSON.stringify(Runs.findOne(_id)))
       else
@@ -42,50 +39,6 @@ Router.map ->
     where: 'client'
     action: ->
       Router.go 'dashboard'
-
-
-_saveTemp = (machineId, temp) ->
-  run = Runs.findOne machine: machineId,
-      sort:
-        createdAt: -1
-      limit: 1
-
-  if temp == 85.0
-    throw new Meteor.Error("invalid-temp", "Invalid temperature")
-
-  Runs.update run._id,
-    $set:
-      roger: true
-    $push:
-      temps:
-        temp
-      times:
-        new Date()
-
-  return run._id
-
-_saveAction = (machineId, action) ->
-  run = Runs.findOne machine: machineId,
-    sort:
-      createdAt: -1
-    limit: 1
-
-  Runs.update run._id,
-    $push:
-      actionHistory:
-        action: action
-        at: new Date()
-
-  return run._id
-
-
-# Meteor.methods
-  # saveTemp: (machineId, temp) ->
-  #   return _saveTemp(machineId, temp)
-
-  # saveAction: (machineId, action) ->
-  #   return _saveAction(machineId, action)
-
 
 
 Runs.allow

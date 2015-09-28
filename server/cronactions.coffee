@@ -1,6 +1,24 @@
 # SyncedCron.config
 #   log: false
 
+Meteor.methods
+    setActionTimer: (machineId, action, date) ->
+        SyncedCron.remove(machineId)
+        x =
+            name: machineId
+            schedule: (parser) ->
+                parser.recur().on(date).fullDate();
+            job: () ->
+                # Get latest run for machine
+                run = Runs.findOne machine: machineId,
+                    sort:
+                        createdAt: -1
+                    limit: 1
+                Meteor.call 'setCourse', run._id, action
+                SyncedCron.remove(machineId);
+        SyncedCron.add x
+        SyncedCron.start()
+
 
 
 

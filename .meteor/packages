@@ -37,3 +37,4 @@ check
 underscorestring:underscore.string
 meteorhacks:kadira
 meteorhacks:zones
+percolate:synced-cron
