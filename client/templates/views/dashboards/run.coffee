@@ -53,10 +53,11 @@ Template.run.onRendered ->
             value: c.qty
             label: c.name
             color: INGREDIENT_COLORS[c.name] || '#62cb31'
+            highlight: "#57b32c"
+
 
         donut = self.find('canvas.donut')
         donutChart = new Chart(donut.getContext("2d")).Doughnut(donutData,DONUT_OPTS)
-            highlight: "#57b32c"
 
     buildLine = ->
         console.log 'observing line'
