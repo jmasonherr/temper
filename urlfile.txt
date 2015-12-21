@@ -1,1 +1,0 @@
-mongodb://client-8c2dcfa1:7e2279aa-db33-a71a-4a28-1414e3093c3f@production-db-a2.meteor.io:27017/temper_meteor_com

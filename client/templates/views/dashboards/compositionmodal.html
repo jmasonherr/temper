@@ -1,5 +1,5 @@
 <template name="compositionModal">
-    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="false" style="padding-left: 0px;">
+    <div class="modal" tabindex="-1" role="dialog" aria-hidden="false" style="padding-left: 0px;">
         {{#with run}}
         <div class="modal-dialog">
             <div class="modal-content">
@@ -31,5 +31,43 @@
             </div>
         </div>
         {{/with}}
+    </div>
+</template>
+
+
+<template name="scheduleModal">
+    <div class="modal" tabindex="-1" role="dialog" aria-hidden="false" style="padding-left: 0px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">Schedule</h4>
+                    <!--<small class="font-bold">Lorem Ipsum is simply dummy text of the printing
+                        and typesetting industry.
+                    </small>-->
+                </div>
+                <div class="modal-body row">
+                    <form method="get" class="form-horizontal">
+                        <div class="col-sm-10">
+                            <div class="input-group m-b">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">{{chosenAction}} <span class="caret"></span></button>
+                                        <ul class="dropdown-menu action-menu">
+                                            {{#each actions}}
+                                                <li><a class="" href="#">{{name}}</a></li>
+                                            {{/each}}
+                                        </ul>
+                                </div>
+                                <input type="text" class="form-control datetimepicker"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary">Schedule</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

@@ -15,12 +15,10 @@ okgrow:iron-router-autoscroll
 kevohagan:sweetalert
 chrismbeckett:toastr
 accounts-password
-coffeescript
 d3js:d3
 momentjs:moment
 ian:accounts-ui-bootstrap-3
 sacha:spin
-jmasonherr:rpi-gpio
 standard-minifiers
 meteor-base
 mobile-experience
@@ -37,4 +35,7 @@ check
 underscorestring:underscore.string
 meteorhacks:kadira
 meteorhacks:zones
-percolate:synced-cron
+tsega:bootstrap3-datetimepicker
+natestrauser:x-editable-bootstrap
+chart:chart
+reactive-var

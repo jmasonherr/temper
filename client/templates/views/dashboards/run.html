@@ -1,8 +1,8 @@
 <template name="run">
-    <div class="col-lg-12">
+    <div class="col-md-12">
         {{#panel}}
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-md-3">
                 <div class="small text-center">
                     <i class="fa fa-bolt"></i>
                     <a href="#" data-type="text" data-placement="right" data-placeholder="Bean name" data-title="Bean name"  class="editable editable-click bean" style="display: inline;">{{title}}</a>
@@ -31,15 +31,21 @@
                             <i class="fa fa-clock-o {{#if isRogered}} btn-success{{/if}}"></i> {{status}} <span class="caret"></span></button>
                             <ul class="dropdown-menu action-menu">
                                 {{#each actions}}
-                                {{#if isStatus name}}
-                                <li><a class="disabled" href="#">{{name}}</a></li>
-                                {{else}}
-                                <li><a class="" href="#">{{name}}</a></li>
-                                {{/if}}
+                                    {{#if isStatus name}}
+                                    <li><a class="disabled" href="#">{{name}}</a></li>
+                                    {{else}}
+                                    <li><a class="" href="#">{{name}}</a></li>
+                                    {{/if}}
+
                                 {{/each}}
+                                <li role="separator" class="divider"></li>
+                                <li><a class="schedule" href="#">schedule</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="new-run" href="#">new run</a></li>
                             </ul>
                         </div>
                     </div>
+
                     <div>
                         <h1 class="font-extra-bold m-t-xl m-b-xs" style="font-size: 52px;">
                             {{lastTemp}}&deg;
@@ -51,6 +57,17 @@
                     </div>
                 </div>
             </div>
+            {{#if scheduledActions}}
+            <hr/>
+            <div class="row">
+            {{#each scheduledActions}}
+                <div class="col-md-12">
+                    <b>{{action}}</b>  <i>{{calendar at}}</i>  <a class="closebox"><i class="fa fa-times"></i></a>
+                </div>
+            {{/each}}
+            </div>
+            {{/if}}
+
             {{/panel}}
         </div>
 </template>
